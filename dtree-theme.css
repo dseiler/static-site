@@ -1,0 +1,249 @@
+/* ================================
+   dTree — Modern Card Theme
+   Author: you + ChatGPT
+   ================================= */
+
+/* 1) THEME TOKENS (tweak these to recolor) */
+:root{
+  --dt-font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --dt-bg: #ffffff;
+  --dt-fg: #0f172a;           /* slate-900 */
+  --dt-muted: #64748b;        /* slate-500 */
+  --dt-border: #e5e7eb;       /* gray-200 */
+  --dt-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+  --dt-accent: #2563eb;       /* blue-600 */
+  --dt-accent-soft: rgba(37, 99, 235, 0.12);
+  --dt-link: #334155;         /* slate-700 */
+  --dt-link-strong: #0f172a;  /* slate-900 */
+
+  /* Optional “gender” accents (used on node borders) */
+  --dt-male: #0284c7;         /* sky-600 */
+  --dt-female: #ec4899;       /* pink-500 */
+}
+
+/* 2) CONTAINER (the DIV that holds the SVG) */
+.dtree,
+#graph /* common id in examples */ {
+  font-family: var(--dt-font-family);
+  background:
+    radial-gradient(1200px 800px at 10% -10%, rgba(37, 99, 235, 0.04), transparent 60%),
+    radial-gradient(1400px 900px at 110% 110%, rgba(236, 72, 153, 0.04), transparent 60%),
+    linear-gradient(180deg, #fafafa, #f9fafb);
+  border-radius: 16px;
+  padding: 12px; /* gives a little breathing room around the SVG */
+}
+
+/* Ensure the SVG fills the container nicely */
+.dtree svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 3) LINKS (parent-child connectors) */
+path.link {
+  stroke: var(--dt-border);
+  stroke-width: 2.2px;
+  fill: none;
+  opacity: 0.95;
+  transition: stroke 160ms ease, opacity 160ms ease;
+}
+path.link:hover {
+  stroke: var(--dt-link);
+  opacity: 1;
+}
+
+/* 4) MARRIAGE / PARTNER LINKS (dTree uses a separate class) */
+path.marriage {
+  stroke: var(--dt-border);
+  stroke-width: 2.2px;
+  fill: none;
+  stroke-dasharray: 4 4;
+  opacity: 0.9;
+}
+path.marriage:hover {
+  stroke: var(--dt-link);
+  opacity: 1;
+}
+
+/* 5) NODES (g.node is the group; the rect is the card) */
+g.node {
+  cursor: pointer;
+  transition: transform 160ms ease, filter 160ms ease;
+  transform-origin: center center;
+}
+g.node:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: drop-shadow(var(--dt-shadow));
+}
+
+/* Card look */
+g.node > rect,
+g.node > .box,
+g.node rect.node-rect {
+  fill: var(--dt-bg);
+  stroke: var(--dt-border);
+  stroke-width: 1.25px;
+  vector-effect: non-scaling-stroke; /* keeps borders crisp on zoom */
+  rx: 12px;
+  ry: 12px;
+}
+
+/* Highlight ring (when you add .highlight to the node <g>) */
+g.node.highlight > rect {
+  stroke: var(--dt-accent);
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 0.6rem var(--dt-accent-soft));
+}
+
+/* Optional gender accents (apply .male or .female on the node <g>) */
+g.node.male > rect {
+  stroke: var(--dt-male);
+  stroke-width: 2px;
+}
+g.node.female > rect {
+  stroke: var(--dt-female);
+  stroke-width: 2px;
+}
+
+/* 6) TEXT (dTree often renders multiple <text> elements) */
+g.node text {
+  font-family: var(--dt-font-family);
+  fill: var(--dt-fg);
+  dominant-baseline: middle;
+  text-rendering: optimizeLegibility;
+}
+
+/* Try to catch common name/date classnames used in examples */
+g.node text.name,
+g.node text.nametext,
+g.node text.title {
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.2px;
+  fill: var(--dt-link-strong);
+}
+
+g.node text.details,
+g.node text.subtitle,
+g.node text.datetext,
+g.node text.info,
+g.node text.note {
+  font-size: 11.5px;
+  fill: var(--dt-muted);
+}
+
+/* Deceased or secondary info (add a .deceased class to the node or use your data mapping) */
+g.node.deceased text,
+g.node text.deceased {
+  fill: #94a3b8; /* slate-400 */
+}
+
+/* Truncate very long text with an ellipsis if using <foreignObject> with HTML inside nodes */
+g.node foreignObject .truncate {
+  display: block;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 7) AVATARS/PHOTOS (if you include <image> inside node) */
+g.node image.avatar {
+  clip-path: inset(0 round 10px);
+  /* No fixed size here; size via your node renderer */
+}
+
+/* 8) BADGES / TAG CHIPS (if you render small rects or foreignObject spans) */
+g.node .badge {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  fill: var(--dt-accent);
+}
+g.node rect.badge {
+  fill: var(--dt-accent-soft);
+  stroke: transparent;
+  rx: 6px;
+  ry: 6px;
+}
+
+/* 9) ZOOM/PAN HINTS (optional class you can place around the SVG) */
+.dtree.is-pannable {
+  cursor: grab;
+}
+.dtree.is-pannable:active {
+  cursor: grabbing;
+}
+
+/* 10) TOOLTIP (if you use a custom HTML tooltip container) */
+.dtree-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 30;
+  background: var(--dt-bg);
+  border: 1px solid var(--dt-border);
+  box-shadow: var(--dt-shadow);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--dt-fg);
+  font-family: var(--dt-font-family);
+  font-size: 12.5px;
+}
+
+/* 11) DARK MODE */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dt-bg: #0b1220;          /* near-slate-900 */
+    --dt-fg: #e5e7eb;          /* gray-200 */
+    --dt-muted: #9ca3af;       /* gray-400 */
+    --dt-border: #1f2937;      /* gray-800 */
+    --dt-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    --dt-link: #a3b2ff;
+    --dt-link-strong: #ffffff;
+    --dt-accent-soft: rgba(99, 102, 241, 0.22);
+  }
+
+  .dtree,
+  #tree,
+  .dTree {
+    background:
+      radial-gradient(1200px 800px at 10% -10%, rgba(99, 102, 241, 0.07), transparent 60%),
+      radial-gradient(1400px 900px at 110% 110%, rgba(236, 72, 153, 0.08), transparent 60%),
+      linear-gradient(180deg, #0b1220, #0b1220);
+  }
+
+  path.link,
+  path.marriage {
+    stroke: #374151; /* gray-700 */
+  }
+
+  g.node > rect,
+  g.node > .box,
+  g.node rect.node-rect {
+    stroke: #1f2937; /* gray-800 */
+  }
+
+  g.node.highlight > rect {
+    stroke: #818cf8; /* indigo-400 */
+  }
+}
+
+/* 12) PRINT (higher contrast, no shadows) */
+@media print {
+  .dtree,
+  #tree,
+  .dTree {
+    background: #fff !important;
+    padding: 0;
+  }
+  g.node { filter: none !important; }
+  path.link,
+  path.marriage {
+    stroke: #111 !important;
+    opacity: 1 !important;
+  }
+  g.node > rect {
+    stroke: #111 !important;
+  }
+}

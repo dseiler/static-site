@@ -1,0 +1,242 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Stammbaum Seilers (Zweig Leontius)</h1>
+        <div id="graph"></div>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/d3-dtree@2.4.1/dist/dTree.min.js"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/d3-dtree@2.4.1/dist/dTree.js"></script>-->
+        <script src="family_tree_seiler.js" charset="utf-8"></script>
+        <style>
+            body {
+                font: 10px sans-serif;
+            }
+            .linage {
+                fill: none;
+                stroke: black;
+            }
+            .marriage {
+                fill: none;
+                stroke: black;
+            }
+            .man {
+                background-color: lightblue;
+                border-style: solid;
+                border-width: 1px;
+                border-color: grey;
+                box-sizing: border-box;
+                border-radius: 3px;
+            }
+            .woman {
+                background-color: pink;
+                border-style: solid;
+                border-width: 1px;
+                border-color: grey;
+                box-sizing: border-box;
+                border-radius: 3px;
+            }
+            .nodeText{
+                font: 10px sans-serif;
+            }
+            .marriageNode {
+                background-color: black;
+                border-radius: 10%; /* 50% */
+            }
+            .emphasis{
+                    font-style: italic;
+            }
+            p {
+                padding:0;
+                margin:0;
+            }
+            svg {
+                border-style: solid;
+                border-width: 1px;
+            }
+        </style>
+        <script>
+            let treeData = [/*{
+            "name": "Niclas Superlongsurname",
+            "class": "man",
+            "textClass": "emphasis",
+            "marriages": [{
+                "spouse": {
+                "name": "Iliana",
+                "class": "woman",
+                "extra": {
+                    "nickname": "Illi"
+                }
+                },
+                "children": [{
+                "name": "James",
+                "class": "man",
+                "marriages": [
+                    {
+                        "spouse": {
+                    "name": "Alexandra",
+                    "class": "woman"
+                    },
+                    "children": []
+                    },
+                    {
+                    "spouse": {
+                    "name": "Alexandra",
+                    "class": "woman"
+                    },
+                    "children": [{
+                    "name": "Eric",
+                    "class": "man",
+                    "marriages": [{
+                        "spouse": {
+                        "name": "Eva",
+                        "class": "woman"
+                        }
+                    }]
+                    }, {
+                    "name": "Jane",
+                    "class": "woman"
+                    }, {
+                    "name": "Jasper",
+                    "class": "man"
+                    }, {
+                    "name": "Emma",
+                    "class": "woman"
+                    }, {
+                    "name": "Julia",
+                    "class": "woman"
+                    }, {
+                    "name": "Jessica",
+                    "class": "woman"
+                    }]
+                }]
+                }]
+            }]
+            }*/];
+
+            // DSE
+            function addSpouses(male, target) {
+                // iterate through all the spouses
+                if (male.spouses != null) {
+                    for (const spouse of male.spouses) {
+                        let spouseObject = {
+                            spouse: createPerson(spouse),
+                            extra: {
+                                weddingDate: spouse.weddingDate,
+                            }
+                        }
+                        target.marriages.push(spouseObject);
+
+                        // add the childern
+                        spouseObject.children = [];
+                        addChildren(spouse, spouseObject.children);
+                    }
+                }
+            }
+
+            function addChildren(mother, target) {
+                // iterate through all the children of the spouse and add them
+                if(mother.children != null) {
+                    for (const child of mother.children) {
+                        let childObject = createPerson(child);
+                        //childObject.parent = mother.id;
+                        target.push(childObject);
+                        // if the child is a male, we add his spouses
+                        //if (child.gender == "m") {
+                            addSpouses(child, childObject);
+                        //}
+                    }
+                }
+            }
+
+            function createPerson(source) {
+                return {
+                    name: source.name,
+                    class: source.gender == "m" ? "man" : "woman",
+                    textClass: "nodeText",
+                    marriages: [],
+                    depthOffset: 1,
+                    extra: {
+                        key: source.id,
+                        birthDate: source.birthDate,
+                        deathDate: source.deathDate,
+                        weddingDate: source.weddingDate,
+                        comment: source.comment
+                    }
+                }
+            }
+
+            treeData.push(createPerson(familyTreeSeilerData));
+            addSpouses(familyTreeSeilerData, treeData[0]);
+            let selectedNodeId = ""; // for testing making nodes invisible
+            let tree = dTree.init(treeData, {
+                target: "#graph",
+                debug: true,
+                height: 1200,
+                width: 1200,
+                hideMarriageNodes: false,
+                marriageNodeSize: 10,
+                callbacks: {
+                    nodeClick: function(name, extra, id) {
+                        selectedNodeId = id;
+                        console.log(extra);
+                    },
+                    textRenderer: function(name, extra, textClass) {
+                        // THis callback is optinal but can be used to customize
+                    // how the text is rendered without having to rewrite the entire node
+                    // from screatch.
+                        if (extra && extra.key)
+                            name = name + " (" + extra.key + ")";
+                        return "<p align='center' class='" + textClass + "'>" + name + "</p>" + "<p align='center' style='font-size: 8'>" + (extra && extra.birthDate ? extra.birthDate : "") + (extra && extra.deathDate ? " - " + extra.deathDate : "") + "</p>";
+                    },
+                    nodeRenderer: function(name, x, y, height, width, extra, id, nodeClass, textClass, textRenderer) {
+                        // This callback is optional but can be used to customize the
+                        // node element using HTML.
+                        // for testing make node with id 3 hidden
+                        
+                        let hidden = (id == selectedNodeId ? "hidden" : "visible");
+                        let node = '';
+                        node += '<div title="' + (extra ? extra.comment : '') + '"';
+                        node += 'style="visibility:' + hidden + ';height:100%;width:100%;" ';
+                        node += 'class="' + nodeClass + '" ';
+                        node += 'id="node' + id + '">\n';
+                        node += textRenderer(name, extra, textClass);
+                        node += '</div>';
+                        return node;
+                    },
+                    
+                    marriageRenderer: function(x, y, height, width, extra, id, nodeClass) {
+                        let weddingDate = ((extra != null && extra.weddingDate != null) ? extra.weddingDate : "");
+                        return `<div title="Wedding: ${weddingDate}" style="height:100%" class="${nodeClass}" id="node${id}">Hello</div>`;//"" + (extra != null ? extra.weddingDate : "");
+                    },
+                    marriageSize: function(nodes, size) {
+                        //console.log("==== marriage size: " + size);
+                        for(n of nodes) {
+                            //console.log(n);
+                            if (!n.data.hidden) {
+                                n.cHeight = size;
+                                n.cWidth = size;
+                            }
+                        }
+                    
+                        return [size, size];
+                    },
+                    marriageClick: function(extra, id) {
+                        console.log(extra);
+                    }
+                }
+            });
+            //console.log(tree);
+            //tree.zoomToNode("3");
+            //let svg = d3.select("svg");
+            //console.log(svg);
+            //console.log(svg.selectAll("g.node"));
+            //let allObjects = svg.selectAll(function() { return this.getElementsByTagName("foreignObject"); });
+            
+            //var node = svg.selectAll("g.node")
+            //        .data(nodes, function(d) { return d.id || (d.id = ++i); }, function(d) { return d.isSelected || (d.isSelected = false); });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>dTree Family Tree Demo</title>
+  <link rel="stylesheet" href="dtree-theme.css" />
+  <style>
+    #tree { width: 100%; height: 600px; border: 1px solid var(--dt-border); border-radius: 12px; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <h1 style="font-family: sans-serif; text-align:center; margin:1rem 0;">Family Tree Demo with dTree</h1>
+  <div id="tree"></div>
+
+  <!-- Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@5/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4/lodash.min.js"></script>
+  <!-- dTree -->
+  <script src="https://cdn.jsdelivr.net/npm/d3-dtree@2.4.1/dist/dTree.min.js"></script>
+
+  <script>
+    console.log("d3?", !!window.d3, "lodash?", !!window._, "dTree?", !!window.dTree);
+
+    const familyData = [{
+      name: "John Doe", class: "male", extra: { birth: "1970" },
+      marriages: [{
+        spouse: { name: "Jane Smith", class: "female", extra: { birth: "1972" } },
+        children: [
+          { name: "Anna Doe", class: "female", extra: { birth: "1998" } },
+          { name: "Mark Doe", class: "male",   extra: { birth: "2001" } }
+        ]
+      }]
+    }];
+
+    dTree.init(familyData, {
+      target: "#tree",
+      height: 600,
+      width: 1000,
+      nodeWidth: 120,
+      nodeHeight: 60
+    });
+  </script>
+</body>
+</html>
