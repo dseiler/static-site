@@ -33,12 +33,28 @@ let familyTreeData = {
               "comment": "Geheiratet in Erdeborn, S88 Band III",
               "children": [
                 {
-                  "id": "1a1a1",
+                  "id": "1a1a2",
+                  "name": "Kurt Bär",
+                  "birthDate": "??",
+                  "deathDate": "??",
+                  "gender": "m",
+                  "comment": ""
+                },
+                {
+                  "id": "1a1a3",
+                  "name": "Rosi Bär",
+                  "birthDate": "??",
+                  "deathDate": "??",
+                  "gender": "f",
+                  "comment": "Verprügelte einen Bauernsohn ;-)"
+                },
+                {
+                  "id": "1a1a5",
                   "name": "Friedrich (Fritz) Johann Rudolf Bär",
                   "birthDate": "1919",
                   "deathDate": "2002",
                   "gender": "m",
-                  "comment": "Emigration aus Deutschland. Schwerer Anfang in Ottenbach. Aufgewachsen in Obfelden ZH und Zug",
+                  "comment": "5.Kind. Emigration aus Deutschland. Schwerer Anfang in Ottenbach. Aufgewachsen in Obfelden ZH und Zug",
                   "spouses": [
                     {
                       "id": "1a1a1a",
@@ -81,6 +97,30 @@ let familyTreeData = {
                       ]
                     }
                   ]
+                },
+                {
+                  "id": "1a1a6",
+                  "name": "Margarethe (Gritli) Bär",
+                  "birthDate": "Mai 1921",
+                  "deathDate": "??",
+                  "gender": "f",
+                  "comment": ""
+                },
+                {
+                  "id": "1a1a7",
+                  "name": "Hans (Hansli) Bär",
+                  "birthDate": "Dezember 1922",
+                  "deathDate": "??",
+                  "gender": "m",
+                  "comment": ""
+                },
+                {
+                  "id": "1a1a8",
+                  "name": "Klara (Klärli) Bär",
+                  "birthDate": "Februar 1924",
+                  "deathDate": "??",
+                  "gender": "f",
+                  "comment": ""
                 }
               ],
             }
