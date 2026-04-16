@@ -25,8 +25,8 @@ let familyTreeData = {
           "spouses": [
             {
               "id": "1a1a",
-              "name": "... Emilie --> falsch? (Ur Gross-Tante Baer)",
-              "birthDate": "1895",
+              "name": "Emilie Klara geb. Brünner (Ur Gross-Tante Baer)",
+              "birthDate": "1892",
               "deathDate": "1982",
               "gender": "f",
               "weddingDate": "1912-01-14",
@@ -315,7 +315,7 @@ let familyTreeData = {
       "deathDate": "??",
       "gender": "f",
       "weddingDate": "1933-11-03",
-      "comment": "Tochter des Albert Johann und der Karolina Rudolf (geb. Gehringer), geheiratet in Basel. Ehe wurde am 30.8.1941 vor dem Bezirksgericht in Affoltern geschieden. Am 25.12.1941 kam noch Doris auf die Welt?? ev. von einem anderen Mann?",
+      "comment": "Tochter des Albert Johann und der Karolina Rudolf (geb. Gehringer), geheiratet in Basel. Ehe wurde am 30.8.1941 vor dem Bezirksgericht in Affoltern geschieden (Bd4, Blatt 207). Am 25.12.1941 kam noch Doris auf die Welt?? ev. von einem anderen Mann?",
       "children": [
         {
           "id": "1b1",
@@ -342,7 +342,7 @@ let familyTreeData = {
           "birthDate": "1941-12-25",
           "deathDate": "??",
           "gender": "f",
-          "comment": "6. Kind von Jakob Rudolf Baer (Ur-Ur-Grossvater). Geboren in Affoltern am Albis ZH. Scheint zur Adoption gegeben worden zu sein. Heiratete am 27.April 1962 in Balsthal Urs Probst von Müriswil?"
+          "comment": "6. Kind von Jakob Rudolf Baer (ev. von anderem Mann?). Geboren in Zürich. Scheint zur Adoption gegeben worden zu sein. Heiratete am 27.April 1962 in Balsthal Urs Probst von Mümliswil / SO"
         }
       ]
     }
