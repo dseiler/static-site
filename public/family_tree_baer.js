@@ -121,6 +121,36 @@ let familyTreeData = {
                   "deathDate": "??",
                   "gender": "f",
                   "comment": ""
+                },
+                {
+                  "id": "1a1a9",
+                  "name": "Walter Bär",
+                  "birthDate": "11.3.1936",
+                  "deathDate": "2023",
+                  "gender": "m",
+                  "comment": "",
+                  "spouses": [
+                    {
+                      "id": "1a1a9a",
+                      "name": "Annamarie Fischer",
+                      "birthDate": "2.2.1941",
+                      "deathDate": "",
+                      "gender": "f",
+                      "weddingDate": "",
+                      "comment": "",
+                      "children": [
+                        {
+                          "id": "1a1a9a1",
+                          "name": "Christine Bär",
+                          "birthDate": "1964",
+                          "deathDate": "",
+                          "gender": "f",
+                          "comment": "",
+                          "spouses": []
+                        }
+                      ]
+                    }
+                  ]
                 }
               ],
             }
@@ -218,7 +248,7 @@ let familyTreeData = {
                       "deathDate": "2010-09-16",
                       "gender": "f",
                       "weddingDate": "1945-04-07",
-                      "comment": "Geheiratet in Affoltern am Albis ZH. Eingebürgert in Illnau Effretikon ZH am 21.April 1994. Entlassen aus dem Bürgerrecht von Ottenbach am 10.Mai 1994",
+                      "comment": "Geb. in Töss. Geheiratet in Affoltern am Albis ZH. Eingebürgert in Illnau Effretikon ZH am 21.April 1994. Entlassen aus dem Bürgerrecht von Ottenbach am 10.Mai 1994",
                       "children": [
                         {
                           "id": "1a1a2a1",
@@ -227,7 +257,7 @@ let familyTreeData = {
                           "deathDate": "2023-05-24",
                           "gender": "f",
                           "weddingDate": "",
-                          "comment": "Verh. in 2. Ehe mit Werner Seiler",
+                          "comment": "Geb. in Affoltern am Albis ZH.Verh. in 2. Ehe mit Werner Seiler. 1. Ehe mit Walter Schoch am 23.8.1968 (Winterthur)",
                           "spouses": [
                             {
                               "id": "1a1a2a1a",
